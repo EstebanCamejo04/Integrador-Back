@@ -4,7 +4,7 @@ Este proyecto es una aplicación de tours desarrollada con Node.js y Prisma.
 
 ## Requisitos
 
-- Node.js (versión 14 o superior)
+- Node.js (versión 19 o superior)
 - Prisma (instalado como dependencia del proyecto)
 - Base de datos compatible con Prisma (PostgreSQL, MySQL, SQLite, etc.)
 
