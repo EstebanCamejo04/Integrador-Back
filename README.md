@@ -16,7 +16,8 @@ Sigue estos pasos para instalar y ejecutar el proyecto en tu máquina local.
 
 ```bash
 git clone https://github.com/tu-usuario/slack-line-tours.git
-cd slack-line-tours```
+cd slack-line-tours
+```
 
 ### Instalar las dependencias
 ```bash
