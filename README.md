@@ -15,8 +15,8 @@ Sigue estos pasos para instalar y ejecutar el proyecto en tu máquina local.
 ### Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/slack-line-tours.git
-cd slack-line-tours
+git clone https://github.com/EstebanCamejo04/Integrador-Back.git
+cd Integrador-Back
 ```
 
 ### Instalar las dependencias
