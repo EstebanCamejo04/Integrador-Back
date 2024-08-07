@@ -5,8 +5,8 @@ generator client {
   provider = "prisma-client-js"
 }
 datasource db {
-  provider = "sqlite" // Cambia esto al proveedor de tu base de datos (mysql, sqlite, sqlserver, etc.)
-  url      = env("DATABASE_URL") // Asegúrate de que DATABASE_URL esté definido en tu archivo .env
+  provider = "mysql" // definimos el provider
+  url      = env("DATABASE_URL") // Asegúrate de que DATABASE_URL esté definido en tu archivo .env ademas tener en cuenta de cambiar las credenciales a la base de datos local.
 }
 
 model Product {
@@ -17,7 +17,7 @@ model Product {
     productDate Product_date @relation( fields: [product_date_id], references: [id])
     product_date_id Int @unique
     location String
-    avible Boolean
+    aviable Boolean
 }
 
 model Product_date {
