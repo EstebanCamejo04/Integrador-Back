@@ -1,0 +1,7 @@
+model product_date {
+    id Int @id @default(autoincrement())
+    product product?
+    slots Int
+    // borre el time y dejé todo dentro de date..
+    date DateTime
+}

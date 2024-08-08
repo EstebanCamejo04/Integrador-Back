@@ -1,0 +1,2 @@
+$mysqlUser = "your_mysql_user"
+$mysqlPassword = "your_pass"

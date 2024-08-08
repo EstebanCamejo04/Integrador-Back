@@ -1,0 +1,10 @@
+model product {
+    id Int @id @default(autoincrement())
+    category product_category @relation(fields: [category_id], references: [id])
+    category_id Int
+    price Int
+    productDate product_date @relation( fields: [product_date_id], references: [id])
+    product_date_id Int @unique
+    location String
+    available Boolean
+}
