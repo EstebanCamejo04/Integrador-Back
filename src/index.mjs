@@ -2,10 +2,14 @@ import express from "express";
 import productRoutes from "./routes/products.mjs";
 import productDate from "./routes/productDate.mjs";
 import productType from "./routes/productType.mjs";
+import cors from "cors";
 const app = express();
 
 // Declaro que express va a estar a la "escucha" de JSONs
 app.use(express.json());
+
+// Configuro los encabezados de cors para permitir peticiones desde cualquier origen con un middleware
+app.use(cors());
 
 // Enrutamiento para los productos
 app.use("/api", productRoutes);
