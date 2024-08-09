@@ -11,6 +11,9 @@ app.use(express.json());
 // Configuro los encabezados de cors para permitir peticiones desde cualquier origen con un middleware
 app.use(cors());
 
+// Deshabilito el encabezado X-Powered.By: Express para mejorar la seguridad
+app.disable("x-powered-by");
+
 // Enrutamiento para los productos
 app.use("/api", productRoutes);
 app.use("/api", productType);
