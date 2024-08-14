@@ -15,25 +15,34 @@ export const login = async (email, password) => {
   const isPasswordValid = await bcrypt.compare(password, user.pass);
   if (!isPasswordValid) throw new Error("Invalid credentials");
 
-  const token = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: "1h" });
+  const token = jwt.sign({ userId: user.id, email: user.email }, SECRET_KEY, { expiresIn: "1d" });
 
-  const expiresDate = new Date(Date.now() + 60 * 60 * 1000); // Si el tiempo de expiración es 1 hora
+   const expiresDate = new Date(Date.now() + 24 * 60 * 60 * 1000); // Si el tiempo de expiración es 1 hora
 
-  await prisma.token.create({
+    await prisma.token.create({
     data: {
       token,
       user: { connect: { id: user.id } },
-      expiresDate: expiresDate,
+            expiresDate: expiresDate,
     },
-  });
+  }); 
 
   return token;
 };
 
-export const verifyToken = async (token) => {
+export const verifyToken = async (req, res, next) => {
+    const authToken = req.headers.authorization;
+  if (!authToken) {
+    return res.status(401).json({ error: "Authorization header missing" });
+  }
+
+  const token = authToken.split(' ')[1]; // Extract token from "Bearer <token>"
+
   try {
-    return jwt.verify(token, SECRET_KEY);
+    const decoded = jwt.verify(token, SECRET_KEY);
+    req.user = decoded; // Añadir los datos del usuario al request
+    next(); // Continuar con la siguiente función en la cadena
   } catch (error) {
-    throw new Error("Invalid token");
+    return res.status(401).json({ error: "Invalid token" });
   }
 };
