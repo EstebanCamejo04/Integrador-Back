@@ -20,6 +20,7 @@ cd Integrador-Back
 ```
 
 ### Instalar las dependencias
+
 ```bash
 npm install
 ```
@@ -28,15 +29,22 @@ npm install
 
 La base de datos se guarda en un archivo dev.db en la carpeta raiz del proyecto.
 Para generarla de manera local:
+
 ```bash
 npx prisma migrate dev
 ```
-En caso de realizar algun cambio al modelado de la base de datos, hace falta volver a correr: 
+
+En caso de realizar algun cambio al modelado de la base de datos, hace falta volver a correr:
+
 ```bash
 npx prisma migrate dev
 ```
+
 Para ver la base de datos:
+
 ```bash
 npx prisma studio
 ```
 
+Nota:
+Es importante para usar los comandos de prisma, estar parados en el folder raiz del proyecto `(./Integrador-Back)`
