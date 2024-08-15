@@ -26,16 +26,16 @@ ON DUPLICATE KEY UPDATE
 -- Asume que los IDs de roles ya están insertados correctamente
 INSERT INTO user (id, email, pass, name, lastname, phone, role_id)
 VALUES
-(1, 'alice.smith@example.com', 'hashed_password1', 'Alice', 'Smith', 1234567890, 1),
-(2, 'bob.johnson@example.com', 'hashed_password2', 'Bob', 'Johnson', 1234567891, 2),
-(3, 'carol.williams@example.com', 'hashed_password3', 'Carol', 'Williams', 1234567892, 2),
-(4, 'dave.jones@example.com', 'hashed_password4', 'Dave', 'Jones', 1234567893, 2),
-(5, 'eve.brown@example.com', 'hashed_password5', 'Eve', 'Brown', 1234567894, 2),
-(6, 'frank.davis@example.com', 'hashed_password6', 'Frank', 'Davis', 1234567895, 2),
-(7, 'grace.miller@example.com', 'hashed_password7', 'Grace', 'Miller', 1234567896, 2),
-(8, 'henry.garcia@example.com', 'hashed_password8', 'Henry', 'Garcia', 1234567897, 2),
-(9, 'iris.martin@example.com', 'hashed_password9', 'Iris', 'Martin', 1234567898, 2),
-(10, 'john.lee@example.com', 'hashed_password10', 'John', 'Lee', 1234567899, 2)
+(1, 'alice.smith@example.com', '$2b$10$tZLPmXylQR6lsgF5fm6pE.CV.Po2.988qC/y2CaHE/SLe9MtnwgC.', 'Alice', 'Smith', 1234567890, 1),
+(2, 'bob.johnson@example.com', '$2b$10$tZLPmXylQR6lsgF5fm6pE.CV.Po2.988qC/y2CaHE/SLe9MtnwgC.', 'Bob', 'Johnson', 1234567891, 2),
+(3, 'carol.williams@example.com', '$2b$10$tZLPmXylQR6lsgF5fm6pE.CV.Po2.988qC/y2CaHE/SLe9MtnwgC.', 'Carol', 'Williams', 1234567892, 2),
+(4, 'dave.jones@example.com', '$2b$10$tZLPmXylQR6lsgF5fm6pE.CV.Po2.988qC/y2CaHE/SLe9MtnwgC.', 'Dave', 'Jones', 1234567893, 2),
+(5, 'eve.brown@example.com', '$2b$10$tZLPmXylQR6lsgF5fm6pE.CV.Po2.988qC/y2CaHE/SLe9MtnwgC.', 'Eve', 'Brown', 1234567894, 2),
+(6, 'frank.davis@example.com', '$2b$10$tZLPmXylQR6lsgF5fm6pE.CV.Po2.988qC/y2CaHE/SLe9MtnwgC.', 'Frank', 'Davis', 1234567895, 2),
+(7, 'grace.miller@example.com', '$2b$10$tZLPmXylQR6lsgF5fm6pE.CV.Po2.988qC/y2CaHE/SLe9MtnwgC.', 'Grace', 'Miller', 1234567896, 2),
+(8, 'henry.garcia@example.com', '$2b$10$tZLPmXylQR6lsgF5fm6pE.CV.Po2.988qC/y2CaHE/SLe9MtnwgC.', 'Henry', 'Garcia', 1234567897, 2),
+(9, 'iris.martin@example.com', '$2b$10$tZLPmXylQR6lsgF5fm6pE.CV.Po2.988qC/y2CaHE/SLe9MtnwgC.', 'Iris', 'Martin', 1234567898, 2),
+(10, 'john.lee@example.com', '$2b$10$tZLPmXylQR6lsgF5fm6pE.CV.Po2.988qC/y2CaHE/SLe9MtnwgC.', 'John', 'Lee', 1234567899, 2)
 AS basic_users
 ON DUPLICATE KEY UPDATE
     pass = basic_users.pass,

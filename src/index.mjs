@@ -2,8 +2,12 @@ import express from "express";
 import productRoutes from "./routes/products.mjs";
 import productDate from "./routes/productDate.mjs";
 import productType from "./routes/productType.mjs";
+import { authRouter } from "./auth/router.mjs";
 import cors from "cors";
+
 const app = express();
+
+console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
 // Declaro que express va a estar a la "escucha" de JSONs
 app.use(express.json());
@@ -18,6 +22,7 @@ app.disable("x-powered-by");
 app.use("/api", productRoutes);
 app.use("/api", productType);
 app.use("/api", productDate);
+app.use("/api", authRouter);
 
 app.get("/", async (req, res) => {
   res.send("Hello world!");
