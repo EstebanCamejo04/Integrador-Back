@@ -4,6 +4,7 @@ import productDate from "./routes/productDate.mjs";
 import productType from "./routes/productType.mjs";
 import { authRouter } from "./auth/router.mjs";
 import cors from "cors";
+import "./config/deleteTokens.mjs";
 
 const app = express();
 
