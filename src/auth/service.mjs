@@ -8,17 +8,23 @@ const SECRET_KEY = process.env.JWT_SECRET;
 console.log("JWT_SECRET_svc:", process.env.JWT_SECRET);
 
 export const login = async (email, password) => {
+  // Buscar al usuario por email
   const user = await findUserByEmail(email);
   if (!user) throw new Error("User not found");
 
+  // Validar la contraseña
   const isPasswordValid = await bcrypt.compare(password, user.pass);
   if (!isPasswordValid) throw new Error("Invalid credentials");
 
+  // Generar JWT
   const token = jwt.sign({ userId: user.id, email: user.email }, SECRET_KEY, {
     expiresIn: "1d",
   });
 
-  return token;
+  // Eliminar la contraseña del objeto user antes de enviarlo al frontend
+  const { pass, ...userWithoutPassword } = user;
+
+  return { token, user: userWithoutPassword };
 };
 
 export const verifyToken = async (req, res, next) => {
