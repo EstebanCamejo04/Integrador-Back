@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, verifyToken } from "./service.mjs";
+import { checkRole, login, verifyToken } from "./service.mjs";
 
 export const authRouter = Router();
 
@@ -21,6 +21,6 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 // Ruta protegida de ejemplo
-authRouter.get("/protected", verifyToken, async (req, res) => {
+authRouter.get("/protected", verifyToken, checkRole(["ADMIN"]), async (req, res) => {
   res.json({ message: "Access granted", user: req.user });
 });
