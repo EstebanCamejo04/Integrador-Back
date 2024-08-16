@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { prisma } from "../db.mjs";
 import { findUserByEmail } from "../users/service.mjs";
 import dotenv from "dotenv";
 dotenv.config();
@@ -19,25 +18,7 @@ export const login = async (email, password) => {
     expiresIn: "1d",
   });
 
-  const expiresDate = new Date(Date.now() + 24 * 60 * 60 * 1000); // Si el tiempo de expiración es 1 hora
-
-  await prisma.token.create({
-    data: {
-      token,
-      user: { connect: { id: user.id } },
-      expiresDate: expiresDate,
-      active: true,
-    },
-  });
-
   return token;
-};
-
-const findValidToken = async (token) => {
-  const tokenRecord = await prisma.token.findFirst({
-    where: { token },
-  });
-  return tokenRecord;
 };
 
 export const verifyToken = async (req, res, next) => {
@@ -48,10 +29,6 @@ export const verifyToken = async (req, res, next) => {
   }
 
   const token = authToken.split(" ")[1]; // Extract token from "Bearer <token>"
-
-  if (!(await findValidToken(token))) {
-    return res.status(401).json({ error: "Invalid token" });
-  }
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
