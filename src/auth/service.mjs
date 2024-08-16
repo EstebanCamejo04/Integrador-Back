@@ -26,6 +26,7 @@ export const login = async (email, password) => {
       token,
       user: { connect: { id: user.id } },
       expiresDate: expiresDate,
+      active: true,
     },
   });
 
