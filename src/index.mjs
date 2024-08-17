@@ -4,6 +4,8 @@ import productDate from "./routes/productDate.mjs";
 import productType from "./routes/productType.mjs";
 import { authRouter } from "./auth/router.mjs";
 import cors from "cors";
+import session from "express-session";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -17,6 +19,21 @@ app.use(cors());
 
 // Deshabilito el encabezado X-Powered.By: Express para mejorar la seguridad
 app.disable("x-powered-by");
+
+// Configuro middlewares de session cookies
+app.use(cookieParser());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false, //  La sesión solo se guardará si ha sido modificada
+    saveUninitialized: false, // Evita crear y almacenar sesiones para usuarios anonimos
+    cookie: {
+      httpOnly: true, // No accesible desde JavaScript
+      secure: true, // Solo se envian en HTTPS (se podría manejar para que entornos aplica)
+      maxAge: 3600000, // 1 hora
+    },
+  })
+);
 
 // Enrutamiento para los productos
 app.use("/api", productRoutes);

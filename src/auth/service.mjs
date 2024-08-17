@@ -27,7 +27,7 @@ export const login = async (email, password) => {
   return { token, user: userWithoutPassword };
 };
 
-export const verifyToken = async (req, res, next) => {
+/* export const verifyToken = async (req, res, next) => {
   const authToken = req.headers.authorization;
 
   if (!authToken) {
@@ -42,5 +42,18 @@ export const verifyToken = async (req, res, next) => {
     next(); // Continuar con la siguiente función en la cadena
   } catch (error) {
     return res.status(401).json({ error: "Invalid token" });
+  }
+}; */
+
+// Middleware para verificar la sesión de usuario
+export const verifySession = (req, res, next) => {
+  // Verifica si la sesión contiene información del usuario
+  if (req.session && req.session.user) {
+    req.user = req.session.user; // Añade los datos del usuario al request
+    next(); // Continua con la siguiente función en la cadena
+  } else {
+    return res
+      .status(401)
+      .json({ error: "Acceso denegado. La sesión no esta activa." });
   }
 };
