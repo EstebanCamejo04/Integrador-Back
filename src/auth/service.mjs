@@ -26,7 +26,10 @@ export const login = async (email, password) => {
 
   return { token, user: userWithoutPassword };
 };
-
+export const signUp = async (name, lastName, email, password) => {
+  const user = await findUserByEmail(email);
+  if (!user) throw new Error("User already Exist");
+};
 export const verifyToken = async (req, res, next) => {
   const authToken = req.headers.authorization;
 

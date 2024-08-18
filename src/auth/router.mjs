@@ -24,3 +24,23 @@ authRouter.post("/login", async (req, res) => {
 authRouter.get("/protected", verifyToken, async (req, res) => {
   res.json({ message: "Access granted", user: req.user });
 });
+authRouter.post("/sign-up", async (req, res) => {
+  const { name, lastName, email, password } = req.body;
+  if (!name || /\d/.test(name)) {
+    return res.status(400).json({ error: "Invalid username" });
+  }
+  if (!lastName || /\d/.test(lastName)) {
+    return res.status(400).json({ error: "Invalid lastname" });
+  }
+  if (!email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+    return res.status(400).json({ error: "Invalid email" });
+  }
+  if (password.length < 8) {
+    return res.status(400).json({ error: "Weak password" });
+  }
+  res.json({
+    name,
+    lastName,
+    email,
+  });
+});
