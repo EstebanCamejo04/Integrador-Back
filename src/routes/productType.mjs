@@ -3,8 +3,8 @@ import { Router } from "express";
 
 const router = Router();
 
-router.get("/products_types", async (req, res) => {
-  const getProductTypes = await prisma.type.findMany({
+router.get("/products_categories", async (req, res) => {
+  const getProductTypes = await prisma.product_category.findMany({
     include: {
       products: true,
     },
@@ -12,8 +12,8 @@ router.get("/products_types", async (req, res) => {
   res.json(getProductTypes);
 });
 
-router.post("/products_types", async (req, res) => {
-  const postProductType = await prisma.type.create({
+router.post("/products_categories", async (req, res) => {
+  const postProductType = await prisma.product_category.create({
     data: req.body,
   });
   res.json(postProductType);
