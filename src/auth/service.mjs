@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { findUserByEmail } from "../users/service.mjs";
+import { findUserByEmail, createUser } from "../users/service.mjs";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -26,9 +26,13 @@ export const login = async (email, password) => {
 
   return { token, user: userWithoutPassword };
 };
-export const signUp = async (name, lastName, email, password) => {
-  const user = await findUserByEmail(email);
-  if (!user) throw new Error("User already Exist");
+export const signUp = async (name, lastName, email, password, phone) => {
+  let user = await findUserByEmail(email);
+  if (user) throw new Error("User already Exist");
+
+  user = await createUser(name, lastName, email, password, phone);
+  if (!user) throw new Error("Try again");
+  return user;
 };
 export const verifyToken = async (req, res, next) => {
   const authToken = req.headers.authorization;

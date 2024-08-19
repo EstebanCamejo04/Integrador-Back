@@ -4,6 +4,7 @@ import productDate from "./routes/productDate.mjs";
 import productType from "./routes/productType.mjs";
 import { authRouter } from "./auth/router.mjs";
 import cors from "cors";
+import { errorHandler } from "./middlewares/errorHandler.mjs";
 
 const app = express();
 
@@ -27,6 +28,8 @@ app.use("/api", authRouter);
 app.get("/", async (req, res) => {
   res.send("Hello world!");
 });
+
+app.use(errorHandler);
 
 //Puerto donde corre la app.
 app.listen(3000);

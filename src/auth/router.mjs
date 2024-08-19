@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, verifyToken } from "./service.mjs";
+import { login, verifyToken, signUp } from "./service.mjs";
 
 export const authRouter = Router();
 
@@ -24,23 +24,32 @@ authRouter.post("/login", async (req, res) => {
 authRouter.get("/protected", verifyToken, async (req, res) => {
   res.json({ message: "Access granted", user: req.user });
 });
-authRouter.post("/sign-up", async (req, res) => {
-  const { name, lastName, email, password } = req.body;
+authRouter.post("/sign-up", async (req, res, next) => {
+  const { name, lastName, email, password, phone } = req.body;
   if (!name || /\d/.test(name)) {
-    return res.status(400).json({ error: "Invalid username" });
+    return res.status(400).json({ error: "Invalid name" });
   }
   if (!lastName || /\d/.test(lastName)) {
-    return res.status(400).json({ error: "Invalid lastname" });
+    return res.status(400).json({ error: "Invalid lastName" });
   }
-  if (!email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+  if (!email || !/\S+@\S+\.\S+/.test(email)) {
     return res.status(400).json({ error: "Invalid email" });
   }
-  if (password.length < 8) {
+  if (!password || password.length < 8) {
     return res.status(400).json({ error: "Weak password" });
   }
-  res.json({
-    name,
-    lastName,
-    email,
-  });
+  if (!phone || phone.length > 10 || !/^[0-9]+$/.test(phone)) {
+    return res.status(400).json({ error: "Invalid phone" });
+  }
+  try {
+    const user = await signUp(name, lastName, email, password, phone);
+    res.json({
+      name: user.name,
+      lastName: user.lastname,
+      email: user.email,
+      phone: user.phone,
+    });
+  } catch (error) {
+    next(error);
+  }
 });
