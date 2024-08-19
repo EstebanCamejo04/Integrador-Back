@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { checkRole, login, verifyToken } from "./service.mjs";
+import { login, verifyToken } from "./service.mjs";
+import { checkRole } from "../admin/service.mjs";
 
 export const authRouter = Router();
 

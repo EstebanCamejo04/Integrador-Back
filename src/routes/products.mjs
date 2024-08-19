@@ -11,7 +11,7 @@ router.get("/products", async (req, res) => {
     // el include se usa para mostrar datos consultados a otra tabla.
     include: {
       // type y productDate hace referencia a las otras tablas.. dejarlo en true para que se vean sus datos
-      type: true,
+      category: true,
       productDate: true,
     },
   });
@@ -26,7 +26,7 @@ router.get("/products/:id", async (req, res) => {
       id: parseInt(req.params.id),
     },
     include: {
-      type: true,
+      category: true,
       productDate: true,
     },
   });
