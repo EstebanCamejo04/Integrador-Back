@@ -4,7 +4,7 @@ model user {
     pass String
     name String
     lastname String
-    phone Int
+    phone String
     role_id Int
     role user_role @relation(fields: [role_id], references: [id])
 }

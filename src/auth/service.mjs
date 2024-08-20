@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { findUserByEmail } from "../users/service.mjs";
+import { findUserByEmail, createUser } from "../users/service.mjs";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -30,7 +30,24 @@ export const login = async (email, password) => {
 
   return { token, user: userWithoutPassword };
 };
+export const signUp = async (name, lastName, email, password, phone) => {
+  try {
+    let user = await findUserByEmail(email);
+    if (user) throw new Error("El usuario ya se encuentra registrado");
 
+    const passHash = await bcrypt.hash(password, 10);
+    user = await createUser(name, lastName, email, passHash, phone);
+    if (!user)
+      throw new Error(
+        "Ha ocurrido un error inesperado, intenta de nuevo más tarde"
+      );
+    return user;
+  } catch (error) {
+    throw new Error(
+      "Ha ocurrido un error inesperado, intenta de nuevo más tarde"
+    );
+  }
+};
 // Middleware para verificar el token
 export const verifyToken = async (req, res, next) => {
   // Obtengo el token de las cookies

@@ -11,7 +11,18 @@ export const findUserByEmail = async (email) => {
     },
   });
 };
-
+export const createUser = async (name, lastName, email, password, phone) => {
+  return prisma.user.create({
+    data: {
+      email: email,
+      pass: password,
+      name: name,
+      lastname: lastName,
+      phone: phone,
+      role_id: 2, // definir rol por defecto
+    },
+  });
+};
 // Middleware para verificar si el usuario tiene un rol específico
 export const verifyRole = (role) => (req, res, next) => {
   // Obtengo el token
