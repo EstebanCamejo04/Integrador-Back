@@ -26,21 +26,42 @@ authRouter.get("/protected", verifyToken, async (req, res) => {
 });
 authRouter.post("/sign-up", async (req, res, next) => {
   const { name, lastName, email, password, phone } = req.body;
-  if (!name || /\d/.test(name)) {
-    return res.status(400).json({ error: "Invalid name" });
+  if (!name || !/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(name)) {
+    return res.status(400).json({
+      error: "El nombre es obligatorio y no puede incluir números ni símbolos",
+    });
   }
-  if (!lastName || /\d/.test(lastName)) {
-    return res.status(400).json({ error: "Invalid lastName" });
+  if (!lastName || !/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(lastName)) {
+    return res.status(400).json({
+      error:
+        "El apellido es obligatorio y no puede incluir números ni símbolos",
+    });
   }
-  if (!email || !/\S+@\S+\.\S+/.test(email)) {
-    return res.status(400).json({ error: "Invalid email" });
+  if (!email) {
+    return res
+      .status(400)
+      .json({ error: "El correo electrónico es obligatorio" });
   }
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    return res
+      .status(400)
+      .json({ error: "El correo electrónico no tiene un formato valido" });
+  }
+  if (!phone || !/^[0-9]+$/.test(phone)) {
+    return res.status(400).json({
+      error: "El número de teléfono es obligatorio y no puede contener letras",
+    });
+  }
+  if (phone.length > 10) {
+    return res
+      .status(400)
+      .json({ error: "El número de teléfono no debe exceder los 10 digitos" });
+  }
+
   if (!password || password.length < 8) {
-    return res.status(400).json({ error: "Weak password" });
+    return res.status(400).json({ error: "Contraseña insegura" });
   }
-  if (!phone || phone.length > 10 || !/^[0-9]+$/.test(phone)) {
-    return res.status(400).json({ error: "Invalid phone" });
-  }
+
   try {
     const user = await signUp(name, lastName, email, password, phone);
     res.json({

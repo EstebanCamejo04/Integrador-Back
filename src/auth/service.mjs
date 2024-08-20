@@ -27,12 +27,21 @@ export const login = async (email, password) => {
   return { token, user: userWithoutPassword };
 };
 export const signUp = async (name, lastName, email, password, phone) => {
-  let user = await findUserByEmail(email);
-  if (user) throw new Error("User already Exist");
+  try {
+    let user = await findUserByEmail(email);
+    if (user) throw new Error("El usuario ya se encuentra registrado");
 
-  user = await createUser(name, lastName, email, password, phone);
-  if (!user) throw new Error("Try again");
-  return user;
+    user = await createUser(name, lastName, email, password, phone);
+    if (!user)
+      throw new Error(
+        "Ha ocurrido un error inesperado, intenta de nuevo más tarde"
+      );
+    return user;
+  } catch (error) {
+    throw new Error(
+      "Ha ocurrido un error inesperado, intenta de nuevo más tarde"
+    );
+  }
 };
 export const verifyToken = async (req, res, next) => {
   const authToken = req.headers.authorization;
