@@ -17,14 +17,18 @@ export const login = async (email, password) => {
   if (!isPasswordValid) throw new Error("Invalid credentials");
 
   // Generar JWT
-  const token = jwt.sign({ userId: user.id, email: user.email }, SECRET_KEY, {
-    expiresIn: "1d",
-  });
+  const token = jwt.sign(
+    { userId: user.id, email: user.email, role: user.role_id },
+    SECRET_KEY,
+    {
+      expiresIn: "1d",
+    }
+  );
 
   // Eliminar la contraseña del objeto user antes de enviarlo al frontend
   const { pass, ...userWithoutPassword } = user;
 
-  return { token, user: userWithoutPassword };
+  return { user: userWithoutPassword };
 };
 export const signUp = async (name, lastName, email, password, phone) => {
   try {
@@ -43,17 +47,20 @@ export const signUp = async (name, lastName, email, password, phone) => {
     );
   }
 };
+// Middleware para verificar el token
 export const verifyToken = async (req, res, next) => {
-  const authToken = req.headers.authorization;
+  // Obtengo el token de las cookies
+  const authToken = req.cookies.token;
 
+  // Valido que se haya obtenido un token
   if (!authToken) {
-    return res.status(401).json({ error: "Authorization header missing" });
+    return res.status(401).json({ error: "Access denied. No token provided." });
   }
 
-  const token = authToken.split(" ")[1]; // Extract token from "Bearer <token>"
+  // const token = authToken.split(" ")[1]; // Extract token from "Bearer <token>"
 
   try {
-    const decoded = jwt.verify(token, SECRET_KEY);
+    const decoded = jwt.verify(authToken, SECRET_KEY);
     req.user = decoded; // Añadir los datos del usuario al request
     next(); // Continuar con la siguiente función en la cadena
   } catch (error) {
