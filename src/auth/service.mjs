@@ -35,7 +35,8 @@ export const signUp = async (name, lastName, email, password, phone) => {
     let user = await findUserByEmail(email);
     if (user) throw new Error("El usuario ya se encuentra registrado");
 
-    user = await createUser(name, lastName, email, password, phone);
+    const passHash = await bcrypt.hash(password, 10);
+    user = await createUser(name, lastName, email, passHash, phone);
     if (!user)
       throw new Error(
         "Ha ocurrido un error inesperado, intenta de nuevo más tarde"
