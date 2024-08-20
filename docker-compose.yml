@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=mysql://root:rootpassword@db:3306/fly_mountain
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    networks:
+      - app-network
+    command: >
+      sh -c "echo Waiting for MySQL Server && sleep 30
+             npx prisma db push &&
+             npm install &&
+             npm run dev"
+
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: fly_mountain
+    ports:
+      - "3309:3306"
+    volumes:
+      - ./prisma/utils/data_for_Test.sql:/tmp/data_for_Test.sql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
