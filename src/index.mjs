@@ -6,6 +6,7 @@ import { authRouter } from "./auth/router.mjs";
 import { adminRouter } from "./admin/router.mjs";
 import { userRouter } from "./users/router.mjs";
 import cors from "cors";
+import { errorHandler } from "./middlewares/errorHandler.mjs";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -40,6 +41,8 @@ app.use("/admin", adminRouter);
 app.get("/", async (req, res) => {
   res.send("Hello world!");
 });
+
+app.use(errorHandler);
 
 //Puerto donde corre la app.
 app.listen(3000);
