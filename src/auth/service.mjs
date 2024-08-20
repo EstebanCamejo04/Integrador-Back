@@ -28,7 +28,7 @@ export const login = async (email, password) => {
   // Eliminar la contraseña del objeto user antes de enviarlo al frontend
   const { pass, ...userWithoutPassword } = user;
 
-  return { user: userWithoutPassword };
+  return { token, user: userWithoutPassword };
 };
 
 // Middleware para verificar el token
