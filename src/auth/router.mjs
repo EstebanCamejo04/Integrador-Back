@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { login, verifyToken } from "./service.mjs";
 import { checkRole } from "../admin/service.mjs";
+import { cookies } from "./constants.mjs";
 
 export const authRouter = Router();
 
@@ -23,7 +24,7 @@ authRouter.post("/login", async (req, res) => {
     };
 
     // Configuro la cookie del token
-    res.cookie("token", sessionData.token, cookieConfig);
+    res.cookie(cookies.token.name, sessionData.token, cookieConfig);
 
     // Envio la info del usuario
     res.json({ user: sessionData.user });
@@ -32,7 +33,18 @@ authRouter.post("/login", async (req, res) => {
     res.status(401).json({ error: error.message });
   }
 });
-// Ruta protegida de ejemplo
-authRouter.get("/protected", verifyToken, checkRole(["ADMIN"]), async (req, res) => {
-  res.json({ message: "Access granted", user: req.user });
+
+authRouter.get("/logout", verifyToken, async (req, res) => {
+  res.clearCookie(cookies.token.name);
+  return res.redirect("/");
 });
+
+// Ruta protegida de ejemplo
+authRouter.get(
+  "/protected",
+  verifyToken,
+  checkRole(["ADMIN"]),
+  async (req, res) => {
+    res.json({ message: "Access granted", user: req.user });
+  }
+);
