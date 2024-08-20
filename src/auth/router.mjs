@@ -37,6 +37,7 @@ authRouter.post("/login", async (req, res) => {
 authRouter.get("/logout", verifyToken, async (req, res) => {
   res.clearCookie(cookies.token.name);
   return res.redirect("/");
+});
 
 authRouter.post("/sign-up", async (req, res, next) => {
   const { name, lastName, email, password, phone } = req.body;
