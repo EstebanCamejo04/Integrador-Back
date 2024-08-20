@@ -32,7 +32,7 @@ function verifyRole(role) {
       if (req.user.roleId !== role) {
         return res
           .status(403)
-          .json({ message: `Access forbidden. Admin role required.` });
+          .json({ message: `Access forbidden. Valid role required.` });
       }
 
       next(); // Permite el acceso a la ruta si el rol coincide

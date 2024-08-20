@@ -3,6 +3,7 @@ import productRoutes from "./routes/products.mjs";
 import productDate from "./routes/productDate.mjs";
 import productType from "./routes/productType.mjs";
 import { authRouter } from "./auth/router.mjs";
+import { adminRouter } from "./admin/router.mjs";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -32,6 +33,7 @@ app.use("/api", productRoutes);
 app.use("/api", productType);
 app.use("/api", productDate);
 app.use("/api", authRouter);
+app.use("/admin", adminRouter);
 
 app.get("/", async (req, res) => {
   res.send("Hello world!");
