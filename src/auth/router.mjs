@@ -41,12 +41,13 @@ authRouter.get("/logout", verifyToken, async (req, res) => {
 
 authRouter.post("/sign-up", async (req, res, next) => {
   const { name, lastName, email, password, phone } = req.body;
-  if (!name || !/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(name)) {
+  const regex = /^[a-zA-Z]+(\s[a-zA-Z]+)*$/;
+  if (!name || !regex.test(name)) {
     return res.status(400).json({
       error: "El nombre es obligatorio y no puede incluir números ni símbolos",
     });
   }
-  if (!lastName || !/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(lastName)) {
+  if (!lastName || !regex.test(lastName)) {
     return res.status(400).json({
       error:
         "El apellido es obligatorio y no puede incluir números ni símbolos",
