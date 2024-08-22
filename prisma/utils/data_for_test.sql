@@ -132,7 +132,7 @@ VALUES
 (20, "Ejercicio", "exrs"),
 (21, "Aventura nocturna", "avnnt"),
 (22, "Iluminación", "ilum"),
-(23, "Suspense", "susps"),
+(23, "Suspenso", "susps"),
 (24, "Noche", "noch"),
 (25, "Emoción", "emoc")
 AS features
