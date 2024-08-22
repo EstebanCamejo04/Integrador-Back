@@ -10,11 +10,6 @@ export const getAllProducts = async () => {
             include: {
                 category: true,
                 productDate: true,
-                product_feature: { // Tabla Intermedia de caracteristicas
-                    include: {
-                        feature: true //Incluir detalles de caracteristicas 
-                    }
-                }
             }
         });
     } catch (error) {
@@ -32,7 +27,12 @@ export const productById = async (id) => {
             },
             include: {
                 category: true,
-                productDate: true
+                productDate: true,
+                product_feature: { // Tabla Intermedia de caracteristicas
+                    include: {
+                        feature: true //Incluir detalles de caracteristicas 
+                    }
+                }
             }
         });
     } catch (error) {
