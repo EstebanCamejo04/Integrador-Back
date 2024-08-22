@@ -7,4 +7,5 @@ model product {
     product_date_id Int @unique
     location String
     available Boolean
+    product_feature product_feature[]
 }

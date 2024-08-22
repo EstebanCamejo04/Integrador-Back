@@ -1,5 +1,4 @@
 import express from "express";
-import productRoutes from "./routes/products.mjs";
 import productDate from "./routes/productDate.mjs";
 import productType from "./routes/productType.mjs";
 import { authRouter } from "./auth/router.mjs";
@@ -8,6 +7,7 @@ import { userRouter } from "./users/router.mjs";
 import cors from "cors";
 import { errorHandler } from "./middlewares/errorHandler.mjs";
 import cookieParser from "cookie-parser";
+import { productRouter } from "./routes/router.mjs";
 
 const app = express();
 
@@ -31,7 +31,7 @@ app.disable("x-powered-by");
 app.use(cookieParser());
 
 // Enrutamiento para los productos
-app.use("/api", productRoutes);
+app.use("/api", productRouter);
 app.use("/api", productType);
 app.use("/api", productDate);
 app.use("/api", authRouter);

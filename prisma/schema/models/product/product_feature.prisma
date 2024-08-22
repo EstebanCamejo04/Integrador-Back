@@ -1,0 +1,10 @@
+// Tabla Intermedia para los productos.
+model product_feature {
+  product_id Int
+  feature_id Int
+
+  product product @relation(fields: [product_id], references: [id])
+  feature feature @relation(fields: [feature_id], references: [id])
+
+  @@id([product_id, feature_id]) // Definir una clave primaria compuesta
+}
