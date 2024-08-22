@@ -17,7 +17,9 @@ productRouter.get("/products", async (req, res) => {
 
 productRouter.get("/products/:id", async (req, res) => {
     try {
-        const findProdByID = await productById();
+        const id = req.params.id;
+
+        const findProdByID = await productById(id);
         res.status(200).json(findProdByID);
     } catch (error) {
         res.status(500).json({message:"Failed to fetch all products", error: error.message})
