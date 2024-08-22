@@ -1,6 +1,5 @@
-model product_date {
+model product_location {
     id Int @id @default(autoincrement())
+    name String
     products product[]
-    slots Int
-    date DateTime
 }
