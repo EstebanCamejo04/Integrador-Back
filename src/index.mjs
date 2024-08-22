@@ -8,6 +8,7 @@ import { userRouter } from "./users/router.mjs";
 import cors from "cors";
 import { errorHandler } from "./middlewares/errorHandler.mjs";
 import cookieParser from "cookie-parser";
+import { productRouter } from "./routes/router.mjs";
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(cookieParser());
 
 // Enrutamiento para los productos
 app.use("/api", productRoutes);
+app.use("/api", productRouter);
 app.use("/api", productType);
 app.use("/api", productDate);
 app.use("/api", authRouter);

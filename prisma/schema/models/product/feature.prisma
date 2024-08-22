@@ -1,0 +1,6 @@
+model feature {
+    id Int @id @default(autoincrement())
+    name String @unique
+    name_alias String
+    product_feature product_feature[]
+    }
