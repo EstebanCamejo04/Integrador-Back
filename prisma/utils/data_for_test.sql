@@ -77,17 +77,31 @@ ON DUPLICATE KEY UPDATE
     slots = dates.slots,
     date = dates.date;
 
+-- Insertar locations en la tabla `product_location` si no existen
+-- Asume que los IDs para las locations serán 1, 2, 3 y 4
+INSERT INTO product_location (id, name)
+VALUES
+(1, 'Cerro de los Burros'),
+(2, 'Cerro Pan de Azúcar'),
+(3, 'Cerro del Verdún'),
+(4, 'Playa Las Grutas')
+AS locations
+ON DUPLICATE KEY UPDATE
+    name = locations.name;
+
 -- Insertar productos en la tabla `product` si no existen
 -- Usa los IDs de categorías y fechas ya insertados
 -- Asume que los IDs para los productos serán 1, 2, 3 y 4
-INSERT INTO product (id, category_id, price, product_date_id, location, available)
+INSERT INTO product (id, category_id, name, description, price, product_date_id, location_id, available)
 VALUES
-(1, 1, 1500, 1, 'Cerro de los Burros', TRUE),
-(2, 2, 2500, 2, 'Cerro Pan de Azúcar', TRUE),
-(3, 3, 2000, 3, 'Cerro del Verdún', TRUE),
-(4, 4, 3000, 4, 'Playa Las Grutas', TRUE)
+(1, 1, "Hamaca one day", "Disfruta de la serenidad de pasar un día entero en nuestra hamaca 'One Day', colgada entre cerros. Diseñada para ofrecerte máxima comodidad, esta hamaca es perfecta para relajarte mientras contemplas la belleza de la naturaleza. Fabricada con materiales de alta calidad, garantiza durabilidad y resistencia, haciendo que cada momento al aire libre sea inolvidable. Ya sea con un buen libro o simplemente disfrutando del paisaje, nuestra hamaca es el complemento ideal para tus escapadas. Regálate la experiencia de desconectar y sumérgete en la tranquilidad que solo la naturaleza puede ofrecer.", 1500, 1, 1, TRUE),
+(2, 2, "Parque de juegos", "Parques con juegos relacionados con el slackline y sus diferentes componentes como lo son las space net, las cintas con guía, las hamacas y las cintas de iniciación.",2500, 2, 2, TRUE),
+(3, 3, "Highline", "Caminar descalzo o con calcetines en una cinta plana especial suspendida entre dos rocas o riscos, en un acantilado",2000, 3, 3, TRUE),
+(4, 4, "Senderismo", "El senderismo es una actividad recreativa y deportiva que implica caminar por senderos y rutas al aire libre, generalmente en entornos naturales como bosques, montañas y parques nacionales.",3000, 4, 4, TRUE),
+(5, 4, "Night shift Highline", "Caminar descalzo o con calcetines en una cinta plana especial suspendida entre dos rocas o riscos, en un acantilado", 3000, 4, 4, TRUE)
 AS products
 ON DUPLICATE KEY UPDATE
+    name = products.name,
+    description = products.description,
     price = products.price,
-    location = products.location,
     available = products.available;

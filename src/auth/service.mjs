@@ -43,6 +43,8 @@ export const signUp = async (name, lastName, email, password, phone) => {
       );
     return user;
   } catch (error) {
+    console.log("e" + error);
+
     throw new Error(
       "Ha ocurrido un error inesperado, intenta de nuevo más tarde"
     );
