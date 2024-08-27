@@ -1,13 +1,11 @@
 import express from "express";
-import productDate from "./routes/productDate.mjs";
-import productType from "./routes/productType.mjs";
 import { authRouter } from "./auth/router.mjs";
 import { adminRouter } from "./admin/router.mjs";
 import { userRouter } from "./users/router.mjs";
 import cors from "cors";
 import { errorHandler } from "./middlewares/errorHandler.mjs";
 import cookieParser from "cookie-parser";
-import { productRouter } from "./routes/router.mjs";
+import { productRouter } from "./products/router.mjs";
 
 const app = express();
 
@@ -32,8 +30,6 @@ app.use(cookieParser());
 
 // Enrutamiento para los productos
 app.use("/api", productRouter);
-app.use("/api", productType);
-app.use("/api", productDate);
 app.use("/api", authRouter);
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);

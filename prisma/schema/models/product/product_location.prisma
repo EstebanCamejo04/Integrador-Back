@@ -1,5 +1,5 @@
 model product_location {
     id Int @id @default(autoincrement())
     name String
-    products product[]
+    products product[] @relation("ProductLocationRelation")
 }
