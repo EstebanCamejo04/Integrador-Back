@@ -10,6 +10,7 @@ export const getAllProducts = async () => {
             include: {
                 category: true,
                 productDate: true,
+                location: true
             }
         });
     } catch (error) {
@@ -53,7 +54,54 @@ export const postProduct = async (productData) => {
     }
 };
 
+// PRODUCTS TYPES
+export const getProductCategories = async () =>{
 
+    try {
+        return await prisma.product_category.findMany({
+            include: {
+                products: true,
+            },
+        });
+
+    } catch (error) {
+        console.error("Error fetching product categories:", error);
+        throw new Error("Unable to fetch product categories. Please try again later.");
+
+    }
+}
+
+export const postProductCategorie = async (req, res) => {
+
+    try {
+
+        return await prisma.product_category.create({
+            data: req.body,
+        });
+    } catch (error) {
+        console.error("Error posting product categories:", error);
+        throw new Error("Unable to fetch product categories. Please try again later.");
+    }
+}
+// PRODUCT DATES
+export const getProductDates =async () => {
+    try {
+    return await prisma.product_date.findMany({
+        include: {
+            products: true,
+        },
+    });
+    } catch (error) {
+        console.error("Error fetching product dates:", error);
+        throw new Error("Unable to fetch product dates. Please try again later.");
+    }
+}
+
+export const postProductDate = async (req, res) =>  {
+    return await prisma.product_date.create({
+        data: req.body,
+    });
+}
 // PRODUCT FEATURES
 //
 // Fetch all product features with related data

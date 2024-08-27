@@ -7,7 +7,7 @@ model product {
     price Int
     productDate product_date @relation( fields: [product_date_id], references: [id])
     product_date_id Int
-    location product_location @relation(fields: [location_id], references: [id])
+    location product_location @relation(fields: [location_id], references: [id], name: "ProductLocationRelation")
     location_id Int
     available Boolean
     product_feature product_feature[]
