@@ -1,0 +1,5 @@
+model location {
+    id Int @id @default(autoincrement())
+    name String
+    products product_location[] 
+}

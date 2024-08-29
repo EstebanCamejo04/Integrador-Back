@@ -1,0 +1,6 @@
+model date {
+    id Int @id @default(autoincrement())
+    slots Int
+    date DateTime
+    products product_date[]
+}

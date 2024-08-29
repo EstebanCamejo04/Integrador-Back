@@ -1,6 +1,9 @@
 model product_date {
-    id Int @id @default(autoincrement())
-    products product[]
-    slots Int
-    date DateTime
+    product_id Int
+    date_id Int
+
+    product product @relation(fields: [product_id], references: [id])
+    date date @relation(fields: [date_id], references: [id])
+
+    @@id([product_id, date_id]) 
 }
