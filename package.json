@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.18.0",
+    "aws-sdk": "^2.1683.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "2.8.5",

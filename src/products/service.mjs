@@ -9,8 +9,8 @@ export const getAllProducts = async () => {
         return prisma.product.findMany({
             include: {
                 category: true,
-                productDate: true,
-                location: true
+                product_date: true,
+                product_location: true
             }
         });
     } catch (error) {
@@ -28,7 +28,7 @@ export const productById = async (id) => {
             },
             include: {
                 category: true,
-                productDate: true,
+                product_date: true,
                 product_feature: { // Tabla Intermedia de caracteristicas
                     include: {
                         feature: true //Incluir detalles de caracteristicas 
