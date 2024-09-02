@@ -1,8 +1,57 @@
+import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { prisma } from "../db.mjs";
+
+import dotenv from 'dotenv';
+import multer from "multer";
+
+dotenv.config()
+
+// S3 Credentials
+const bucket_name = process.env.BUCKET_NAME 
+const bucket_region = process.env.BUCKET_REGION 
+const access_key = process.env.ACCESS_KEY 
+const secret_access_key = process.env.SECRET_ACCESS_KEY 
+
+const s3 = new S3Client({
+    credentials: {
+        accessKeyId: access_key,
+        secretAccessKey: secret_access_key,
+    },
+    region:  bucket_region
+})
+
+// Multer config for handling single Image
+export const multerHandler = ()=> {
+    const storage = multer.memoryStorage();
+
+    console.log("paso por el multer")
+    return multer({ storage }).single("image_url");
+}
 
 
 // PRODUCTS 
 //
+// Create a new product
+export const postProduct = async ({ name, description, categoryId, price, available}) => {
+    try {
+        
+        const newProduct = await prisma.product.create({
+            data: {
+                name,
+                description,
+                category: {
+                    connect: { id: categoryId } 
+                },
+                price,
+                available,
+            }
+        });
+        return newProduct;
+    } catch (error) {
+        console.error("Error creating product:", error);
+        throw new Error("Unable to create product. Please try again later.");
+    }
+};
 // Fetch all products with related data
 export const getAllProducts = async () => {
     try {
@@ -42,17 +91,6 @@ export const productById = async (id) => {
     }
 };
 
-// Create a new product
-export const postProduct = async (productData) => {
-    try {
-        return prisma.product.create({
-            data: productData
-        });
-    } catch (error) {
-        console.error("Error creating product:", error);
-        throw new Error("Unable to create product. Please try again later.");
-    }
-};
 
 // PRODUCTS TYPES
 export const getProductCategories = async () =>{

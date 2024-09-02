@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllProdFeatures, getAllProducts, getProductCategories, getProductDates, postProduct, postProductCategorie, postProductDate, productById } from "./service.mjs"
+import { getAllProdFeatures, getAllProducts, getProductCategories, getProductDates, multerHandler, postProduct, postProductCategorie, postProductDate, productById } from "./service.mjs"
 
 export const productRouter = Router();
 
@@ -28,10 +28,39 @@ productRouter.get("/products/:id", async (req, res) => {
 });
 
 // POST products
-productRouter.post("/products", async (req, res) => {
+productRouter.post("/products", multerHandler(), async (req, res) => {
     try {
+        console.log("Body data", req.body)
+        console.log("??",req.file)
 
-        const newProduct = await postProduct(req.body);
+        // Extraemos los datos del cuerpo y el archivo
+        const { name, description, category_id, price, available } = req.body;
+//        const image = req.files['image_url'] ? req.files['image_url'][0] : null;
+        /* if (image) {
+            console.log("Image Details:", {
+                fieldname: image.fieldname,
+                originalname: image.originalname,
+                mimetype: image.mimetype,
+                size: image.size
+            });
+        } else {
+            console.log("No image file uploaded.");
+        } */ 
+        // Queda para cuando sean mas imagenes
+
+        const imageUrl = req.file ? req.file.buffer.toString('base64') : null;
+        // Convertimos `available` a booleano si es necesario
+        const parsedAvailable = JSON.parse(available.replace(/^"|"$/g, '')); // Si sacan esto se rompe el campo de boolean 👍🏼
+            console.log("parsedAvailable ",parsedAvailable);
+
+        // Llamamos a la función para crear el producto
+        const newProduct = await postProduct({
+            name: name,
+            description: description,
+            categoryId: parseInt(category_id, 10), 
+            price: parseInt(price, 10),           
+            available: parsedAvailable,
+        });
         res.status(201).json(newProduct);
     } catch (error) {
         res.status(500).json({message:"Failed to fetch all products", error: error.message})
