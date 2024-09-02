@@ -79,8 +79,14 @@ export const getAllProducts = async () => {
 
 // Serching  products
 export const searchProducts = async (words, start, end) => {
+  if (start && end) {
+    start = new Date(start);
+    end = new Date(end);
+    start.setUTCHours(0, 0, 0, 0);
+    end.setUTCHours(23, 59, 59, 999);
+  }
   try {
-    return prisma.product.findMany({
+    return await prisma.product.findMany({
       where: {
         AND: [
           {
@@ -104,8 +110,12 @@ export const searchProducts = async (words, start, end) => {
               },
               {
                 product_location: {
-                  name: {
-                    contains: words,
+                  some: {
+                    location: {
+                      name: {
+                        contains: words,
+                      },
+                    },
                   },
                 },
               },
@@ -114,9 +124,13 @@ export const searchProducts = async (words, start, end) => {
           start && end
             ? {
                 product_date: {
-                  date: {
-                    gte: start,
-                    lte: end,
+                  some: {
+                    date: {
+                      date: {
+                        gte: start,
+                        lte: end,
+                      },
+                    },
                   },
                 },
               }
@@ -125,8 +139,16 @@ export const searchProducts = async (words, start, end) => {
       },
       include: {
         category: true,
-        product_date: true,
-        product_location: true,
+        product_date: {
+          include: {
+            date: true,
+          },
+        },
+        product_location: {
+          include: {
+            location: true,
+          },
+        },
       },
     });
   } catch (error) {
