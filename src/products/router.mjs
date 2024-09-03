@@ -46,7 +46,6 @@ productRouter.get("/products/:id", async (req, res) => {
 productRouter.post("/products", multerHandler(), async (req, res) => {
   try {
     console.log("Body data", req.body);
-    console.log("??", req.file);
 
         // Extraemos los datos del cuerpo y el archivo
         const image = req.file ? req.file : null;
