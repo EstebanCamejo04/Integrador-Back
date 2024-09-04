@@ -10,6 +10,8 @@ import {
   postProductDate,
   productById,
   searchProducts,
+  deleteById,
+  updateProduct,
 } from "./service.mjs";
 
 export const productRouter = Router();
@@ -42,45 +44,98 @@ productRouter.get("/products/:id", async (req, res) => {
   }
 });
 
+// UPDATE product
+// PUT update product by ID
+productRouter.put("/products", async (req, res) => {
+  try {
+    const { id, name, description, category_id, price, available } =
+      req.body[0];
+    // Llamamos a la función para actualizar el producto
+    const updatedProduct = await updateProduct({
+      id: id,
+      name: name,
+      description: description,
+      categoryId: parseInt(category_id, 10),
+      price: parseInt(price, 10),
+      available: available,
+    });
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    console.log("FFFFFFFFFFFFFFF+____________________" + error);
+    res
+      .status(500)
+      .json({ message: "Failed to update the product", error: error.message });
+  }
+});
+
+// DELETE products by ID
+productRouter.delete("/products/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const findProdByID = await productById(id);
+
+    if (!findProdByID) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    await deleteById(id);
+
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Failed to delete the product",
+      error: error.message,
+    });
+  }
+});
+
 // POST products
 productRouter.post("/products", multerHandler(), async (req, res) => {
   try {
     console.log("Body data", req.body);
 
-        // Extraemos los datos del cuerpo y el archivo
-        const image = req.file ? req.file : null;
-         if (image) {
-            console.log("Image Details:", {
-                fieldname: image.fieldname,
-                originalname: image.originalname,
-                mimetype: image.mimetype,
-                size: image.size,
-                buffer: image.buffer
-            });
-        } else {
-            console.log("No image file uploaded.");
-
-        }  
-        // Queda para cuando sean mas imagenes
-
-        const { name, description, category_id, price, available} = req.body;
-        //const imageUrl = req.file ? req.file.buffer.toString('base64') : null;
-        // Convertimos `available` a booleano si es necesario
-        const parsedAvailable = JSON.parse(available.replace(/^"|"$/g, '')); // Si sacan esto se rompe el campo de boolean 👍🏼
-            console.log("parsedAvailable ",parsedAvailable);
-
-        // Llamamos a la función para crear el producto
-        const newProduct = await postProduct({
-            name: name,
-            description: description,
-            categoryId: parseInt(category_id, 10), 
-            price: parseInt(price, 10),           
-            available: parsedAvailable,
-        }, image);
-        res.status(201).json(newProduct);
-    } catch (error) {
-        res.status(500).json({message:"Failed to fetch all products", error: error.message})
+    // Extraemos los datos del cuerpo y el archivo
+    const image = req.file ? req.file : null;
+    if (image) {
+      console.log("Image Details:", {
+        fieldname: image.fieldname,
+        originalname: image.originalname,
+        mimetype: image.mimetype,
+        size: image.size,
+        buffer: image.buffer,
+      });
+    } else {
+      console.log("No image file uploaded.");
     }
+    // Queda para cuando sean mas imagenes
+
+    const { name, description, category_id, price, available } = req.body;
+    //const imageUrl = req.file ? req.file.buffer.toString('base64') : null;
+    // Convertimos `available` a booleano si es necesario
+    const parsedAvailable = JSON.parse(available.replace(/^"|"$/g, "")); // Si sacan esto se rompe el campo de boolean 👍🏼
+    console.log("parsedAvailable ", parsedAvailable);
+
+    // Llamamos a la función para crear el producto
+    const newProduct = await postProduct(
+      {
+        name: name,
+        description: description,
+        categoryId: parseInt(category_id, 10),
+        price: parseInt(price, 10),
+        available: parsedAvailable,
+      },
+      image
+    );
+    res.status(201).json(newProduct);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch all products", error: error.message });
+  }
 });
 // POST search-products
 productRouter.get("/search-products", async (req, res) => {
