@@ -1,6 +1,7 @@
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import { prisma } from "../db.mjs";
+import { Prisma } from "@prisma/client";
 import crypto from 'crypto'
 
 import dotenv from "dotenv";
@@ -39,8 +40,19 @@ const randomImageName = (bytes  = 32)  =>  crypto.randomBytes(bytes).toString('h
 // Create a new product
 export const postProduct = async ({ name, description, categoryId, price, available}, image) => {
     try {
-
         let imageKey;
+
+        const newProduct = await prisma.product.create({
+            data: {
+                name,
+                description,
+                category: {
+                    connect: { id: categoryId } 
+                },
+                price,
+                available,
+            }
+        });
 
         if(image) {
 
@@ -56,21 +68,21 @@ export const postProduct = async ({ name, description, categoryId, price, availa
             }
             const uploadImg = new PutObjectCommand(postObjectparams) 
             await s3.send(uploadImg)
+
+            // Actualiza el producto con la ruta de la imagen después de haberla subido
+            await prisma.product.update({
+                where: { id: newProduct.id },
+                data: { imageKey },
+            });
         }
-        const newProduct = await prisma.product.create({
-            data: {
-                name,
-                description,
-                category: {
-                    connect: { id: categoryId } 
-                },
-                price,
-                available,
-                imageKey: imageKey
-            }
-        });
         return newProduct;
     } catch (error) {
+        if (
+            error instanceof Prisma.PrismaClientKnownRequestError &&
+                error.meta?.target?.includes('name')
+        ) {
+            throw new Error('Product name already exists, try another name.');
+        }
         console.error("Error creating product:", error);
         throw new Error("Unable to create product. Please try again later.");
     }
@@ -197,6 +209,25 @@ export const searchProducts = async (words, start, end) => {
   }
 }
 
+
+export const deleteById = async (id) => {
+    try {
+        return prisma.product.findUnique({
+            where: {
+                id: parseInt(id, 10),
+            },
+            include: {
+                category: true,
+                product_date: true,
+                product_feature: true,
+                product_location: true,
+            },
+        });
+    } catch (error) {
+        console.error("Error fetching product by ID:", error);
+        throw new Error("Unable to fetch product details. Please try again later.");
+    }
+};
 
 // Fetch a product by ID with related data
 export const productById = async (id) => {
