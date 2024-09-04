@@ -3,8 +3,8 @@ model product_feature {
   product_id Int
   feature_id Int
 
-  product product @relation(fields: [product_id], references: [id])
-  feature feature @relation(fields: [feature_id], references: [id])
+  product product @relation(fields: [product_id], references: [id],  onDelete: Cascade)
+  feature feature @relation(fields: [feature_id], references: [id],  onDelete: Cascade)
 
   @@id([product_id, feature_id]) // Definir una clave primaria compuesta
 }

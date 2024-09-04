@@ -2,8 +2,8 @@ model product_location {
     product_id  Int
     location_id Int
 
-    product  product  @relation(fields: [product_id], references: [id])
-    location location @relation(fields: [location_id], references: [id])
+    product  product  @relation(fields: [product_id], references: [id],  onDelete: Cascade)
+    location location @relation(fields: [location_id], references: [id],  onDelete: Cascade)
 
     @@id([product_id, location_id]) 
 }
