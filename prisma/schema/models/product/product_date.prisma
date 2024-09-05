@@ -2,8 +2,8 @@ model product_date {
     product_id Int
     date_id Int
 
-    product product @relation(fields: [product_id], references: [id])
-    date date @relation(fields: [date_id], references: [id])
+    product product @relation(fields: [product_id], references: [id],  onDelete: Cascade)
+    date date @relation(fields: [date_id], references: [id],  onDelete: Cascade)
 
     @@id([product_id, date_id]) 
 }
