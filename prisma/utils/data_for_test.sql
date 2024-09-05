@@ -92,50 +92,50 @@ ON DUPLICATE KEY UPDATE
 -- Insertar productos en la tabla `product` si no existen
 -- Usa los IDs de categorías, fechas y ubicaciones ya insertados
 -- Asume que los IDs para los productos serán 1, 2, 3, 4 y 5
-INSERT INTO product (id, category_id, name, description, price, image_url, available)
+INSERT INTO product (id, category_id, name, description, price, imageKey, available)
 VALUES
-(1, 1, 'Hamaca one day', 'Disfruta de la serenidad de pasar un día entero en nuestra hamaca "One Day", colgada entre cerros. Diseñada para ofrecerte máxima comodidad, esta hamaca es perfecta para relajarte mientras contemplas la belleza de la naturaleza. Fabricada con materiales de alta calidad, garantiza durabilidad y resistencia, haciendo que cada momento al aire libre sea inolvidable. Ya sea con un buen libro o simplemente disfrutando del paisaje, nuestra hamaca es el complemento ideal para tus escapadas. Regálate la experiencia de desconectar y sumérgete en la tranquilidad que solo la naturaleza puede ofrecer.', 1500, 'https://example.com/hamaca_one_day.jpg', TRUE),
-(2, 2, 'Parque de juegos', 'Parques con juegos relacionados con el slackline y sus diferentes componentes como lo son las space net, las cintas con guía, las hamacas y las cintas de iniciación.', 2500, 'https://example.com/parque_juegos.jpg', TRUE),
-(3, 3, 'Highline', 'Caminar descalzo o con calcetines en una cinta plana especial suspendida entre dos rocas o riscos, en un acantilado.', 2000, 'https://example.com/highline.jpg', TRUE),
-(4, 4, 'Senderismo', 'El senderismo es una actividad recreativa y deportiva que implica caminar por senderos y rutas al aire libre, generalmente en entornos naturales como bosques, montañas y parques nacionales.', 3000, 'https://example.com/senderismo.jpg', TRUE),
-(5, 4, 'Night shift Highline', 'Caminar descalzo o con calcetines en una cinta plana especial suspendida entre dos rocas o riscos, en un acantilado.', 3000, 'https://example.com/night_shift_highline.jpg', TRUE)
+(1, 1, 'Hamaca one day', 'Disfruta de la serenidad de pasar un día entero en nuestra hamaca "One Day", colgada entre cerros. Diseñada para ofrecerte máxima comodidad, esta hamaca es perfecta para relajarte mientras contemplas la belleza de la naturaleza. Fabricada con materiales de alta calidad, garantiza durabilidad y resistencia, haciendo que cada momento al aire libre sea inolvidable. Ya sea con un buen libro o simplemente disfrutando del paisaje, nuestra hamaca es el complemento ideal para tus escapadas. Regálate la experiencia de desconectar y sumérgete en la tranquilidad que solo la naturaleza puede ofrecer.', 1500, 'images/product1.jpg', TRUE),
+(2, 2, 'Parque de juegos', 'Parques con juegos relacionados con el slackline y sus diferentes componentes como lo son las space net, las cintas con guía, las hamacas y las cintas de iniciación.', 2500, 'images/product2.jpg', TRUE),
+(3, 3, 'Highline', 'Caminar descalzo o con calcetines en una cinta plana especial suspendida entre dos rocas o riscos, en un acantilado.', 2000, 'images/product3.jpg', TRUE),
+(4, 4, 'Senderismo', 'El senderismo es una actividad recreativa y deportiva que implica caminar por senderos y rutas al aire libre, generalmente en entornos naturales como bosques, montañas y parques nacionales.', 3000, 'images/product4.jpg', TRUE),
+(5, 4, 'Night shift Highline', 'Caminar descalzo o con calcetines en una cinta plana especial suspendida entre dos rocas o riscos, en un acantilado.', 3000, 'images/product5.jpg', TRUE)
 AS products
 ON DUPLICATE KEY UPDATE
     name = products.name,
     description = products.description,
     price = products.price,
-    image_url = products.image_url,
+    imageKey = products.imageKey,
     available = products.available;
 
 -- Insertar características en la tabla `feature` si no existen
 -- Asume que los IDs para las características serán 1 a 25
 INSERT INTO feature (id, name, name_alias)
 VALUES
-(1, 'Hammaca', 'hammaca'),
-(2, 'Relajación', 'relajacion'),
-(3, 'Comodidad', 'comodidad'),
-(4, 'Naturaleza', 'naturaleza'),
-(5, 'Vista panorámica', 'vista_panoramica'),
-(6, 'Aventura', 'aventura'),
-(7, 'Diversión', 'diversion'),
-(8, 'Actividad física', 'actividad_fisica'),
-(9, 'Familia', 'familia'),
-(10, 'Desafío', 'desafio'),
-(11, 'Tranquilidad', 'tranquilidad'),
-(12, 'Adrenalina', 'adrenalina'),
-(13, 'Exploración', 'exploracion'),
-(14, 'Deportes acuáticos', 'deportes_acuaticos'),
-(15, 'Camping', 'camping'),
-(16, 'Montañés', 'montañes'),
-(17, 'Paseo en barco', 'paseo_barco'),
-(18, 'Relax total', 'relax_total'),
-(19, 'Desconexión', 'desconexion'),
-(20, 'Aventura al aire libre', 'avlo'),
-(21, 'Naturaleza salvaje', 'naturaleza_salvaje'),
-(22, 'Escalada', 'escalada'),
-(23, 'Ciclismo', 'ciclismo'),
-(24, 'Senderismo', 'senderismo'),
-(25, 'Trekking', 'trekking')
+(1, "Hammaca", "hmk"),
+(2, "Relajación", "relax"),
+(3, "Comodidad", "cmfd"),
+(4, "Naturaleza", "ntrz"),
+(5, "Vista panorámica", "vspn"),
+(6, "Desconexión", "dscx"),
+(7, "Diversión", "dvrn"),
+(8, "Actividad física", "actf"),
+(9, "Familia", "fml"),
+(10, "Seguridad", "sgd"),
+(11, "Aventura", "avnt"),
+(12, "Adrenalina", "adrn"),
+(13, "Desafío", "dsf"),
+(14, "Equilibrio", "eqbr"),
+(15, "Altura", "altr"),
+(16, "Riesgo", "rsg"),
+(17, "Exploración", "explr"),
+(18, "Aire libre", "frair"),
+(19, "Tranquilidad", "tranq"),
+(20, "Ejercicio", "exrs"),
+(21, "Aventura nocturna", "avnnt"),
+(22, "Iluminación", "ilum"),
+(23, "Suspenso", "susps"),
+(24, "Noche", "noch"),
+(25, "Emoción", "emoc")
 AS features
 ON DUPLICATE KEY UPDATE
     name = features.name,

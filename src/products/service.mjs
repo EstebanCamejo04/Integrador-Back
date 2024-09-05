@@ -1,10 +1,8 @@
 import {
   S3Client,
   PutObjectCommand,
-  GetObjectCommand,
   DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { prisma } from "../db.mjs";
 import { Prisma } from "@prisma/client";
 import crypto from "crypto";
@@ -48,8 +46,6 @@ export const postProduct = async (
   image
 ) => {
   try {
-    let imageKey;
-
     const newProduct = await prisma.product.create({
       data: {
         name,
@@ -61,6 +57,8 @@ export const postProduct = async (
         available,
       },
     });
+
+    let imageKey;
 
     if (image) {
       let uniqueImageName = randomImageName();
@@ -109,21 +107,6 @@ export const getAllProducts = async () => {
     if (!Array.isArray(products)) {
       throw new Error("Expected products to be an array.");
     }
-
-    for (const product of products) {
-      if (product.imageKey) {
-        const getObjectParams = {
-          Bucket: bucket_name,
-          Key: product.imageKey,
-        };
-        const getImgs = new GetObjectCommand(getObjectParams);
-        const url = await getSignedUrl(s3, getImgs, { expiresIn: 3600 });
-        product.image_url = url;
-        console.log("Product Image URL:", product.image_url);
-      }
-      console.log("Products fetched from database:", products);
-    }
-    console.log("S3 Bucket Name:", bucket_name);
     return products;
   } catch (error) {
     console.error("Error fetching all products:", error);
@@ -268,7 +251,7 @@ export const deleteById = async (id) => {
 // Fetch a product by ID with related data
 export const productById = async (id) => {
   try {
-    return prisma.product.findFirst({
+    const product = await prisma.product.findFirst({
       where: {
         id: parseInt(id, 10),
       },
@@ -283,6 +266,12 @@ export const productById = async (id) => {
         },
       },
     });
+
+    //
+    if (!product) {
+      throw new Error("Product not found.");
+    }
+    return product;
   } catch (error) {
     console.error("Error fetching product by ID:", error);
     throw new Error("Unable to fetch product details. Please try again later.");
