@@ -4,6 +4,7 @@ import {
   DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
 import { prisma } from "../db.mjs";
+import { Prisma } from "@prisma/client";
 import crypto from "crypto";
 
 import dotenv from "dotenv";
@@ -81,6 +82,12 @@ export const postProduct = async (
     }
     return newProduct;
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.meta?.target?.includes("name")
+    ) {
+      throw new Error("Product name already exists, try another name.");
+    }
     console.error("Error creating product:", error);
     throw new Error("Unable to create product. Please try again later.");
   }
@@ -184,6 +191,60 @@ export const searchProducts = async (words, start, end) => {
   } catch (error) {
     console.error("Error fetching all products:", error);
     throw new Error("Unable to fetch products. Please try again later.");
+  }
+};
+
+// Update product
+export const updateProduct = async ({
+  id,
+  name,
+  description,
+  categoryId,
+  price,
+  available,
+}) => {
+  try {
+    // Actualizamos los detalles del producto
+    const updatedProduct = await prisma.product.update({
+      where: { id: id },
+      data: {
+        name,
+        description,
+        category: {
+          connect: { id: categoryId },
+        },
+        price,
+        available,
+      },
+    });
+
+    return updatedProduct;
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.meta?.target?.includes("name")
+    ) {
+      throw new Error("Product name already exists, try another name.");
+    }
+    console.error("Error updating product:", error);
+    throw new Error("Unable to update product. Please try again later.");
+  }
+};
+
+// Delete product
+export const deleteById = async (id) => {
+  try {
+    id = parseInt(id);
+    console.log(id + typeof id);
+
+    return prisma.product.delete({
+      where: {
+        id: parseInt(id, 10),
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching product by ID:", error);
+    throw new Error("Unable to fetch product details. Please try again later.");
   }
 };
 
