@@ -17,7 +17,7 @@ app.use(express.json());
 // Configuro los encabezados de cors para permitir peticiones desde cualquier origen con un middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // Origen de tu frontend
+    origin: "http://fly-mountain-app.s3-website.us-east-2.amazonaws.com", // Origen de tu frontend
     credentials: true, // Permitir el envío de cookies
   })
 );
