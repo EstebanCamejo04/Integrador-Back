@@ -66,15 +66,14 @@ ON DUPLICATE KEY UPDATE
 
 -- Insertar fechas en la tabla `date` si no existen
 -- Asume que los IDs para las fechas serán 1, 2, 3 y 4
-INSERT INTO date (id, slots, date)
+INSERT INTO date (id, date)
 VALUES
-(1, 8, '2024-12-15 10:00:00'),
-(2, 8, '2024-12-20 09:00:00'),
-(3, 8, '2024-12-25 11:00:00'),
-(4, 8, '2024-12-30 14:00:00')
+(1, '2024-12-15 10:00:00'),
+(2, '2024-12-20 09:00:00'),
+(3, '2024-12-25 11:00:00'),
+(4, '2024-12-30 14:00:00')
 AS dates
 ON DUPLICATE KEY UPDATE
-    slots = dates.slots,
     date = dates.date;
 
 -- Insertar ubicaciones en la tabla `location` si no existen
@@ -173,18 +172,19 @@ ON DUPLICATE KEY UPDATE
 
 -- Insertar fechas para productos en la tabla `product_date`
 -- Asume que los IDs de productos y fechas ya están definidos
-INSERT INTO product_date (product_id, date_id)
+INSERT INTO product_date (product_id, date_id, slots)
 VALUES
-(1, 1), -- Hamaca one day disponible en la fecha con ID 1
-(1, 2), -- Hamaca one day disponible en la fecha con ID 2
-(2, 3), -- Parque de juegos disponible en la fecha con ID 3
-(3, 4), -- Highline disponible en la fecha con ID 4
-(4, 2), -- Senderismo disponible en la fecha con ID 2
-(5, 1)  -- Night shift Highline disponible en la fecha con ID 1
+(1, 1, 8), -- Hamaca one day disponible en la fecha con ID 1
+(1, 2, 8), -- Hamaca one day disponible en la fecha con ID 2
+(2, 3, 8), -- Parque de juegos disponible en la fecha con ID 3
+(3, 4, 8), -- Highline disponible en la fecha con ID 4
+(4, 2, 8), -- Senderismo disponible en la fecha con ID 2
+(5, 1, 8)  -- Night shift Highline disponible en la fecha con ID 1
 AS product_dates
 ON DUPLICATE KEY UPDATE
     product_id = product_dates.product_id,
-    date_id = product_dates.date_id;
+    date_id = product_dates.date_id,
+    slots = product_dates.slots;
 
 -- Insertar ubicaciones para productos en la tabla `product_location`
 -- Asume que los IDs de productos y ubicaciones ya están definidos
