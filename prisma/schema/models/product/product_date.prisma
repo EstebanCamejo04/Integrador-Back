@@ -4,6 +4,9 @@ model product_date {
 
     product product @relation(fields: [product_id], references: [id],  onDelete: Cascade)
     date date @relation(fields: [date_id], references: [id],  onDelete: Cascade)
+    
+    slots Int
+    reservations reservation[]
 
     @@id([product_id, date_id]) 
 }

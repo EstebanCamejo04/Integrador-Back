@@ -1,0 +1,11 @@
+model reservation {
+    id Int @id @default(autoincrement())
+    user_id Int
+    product_id Int
+    date_id Int
+    slots_reserved Int
+
+    user user @relation(fields: [user_id], references: [id],  onDelete: Cascade)
+    product_date product_date @relation(fields: [product_id, date_id], references: [product_id, date_id], onDelete: Cascade)
+
+}

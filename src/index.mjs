@@ -6,6 +6,7 @@ import cors from "cors";
 import { errorHandler } from "./middlewares/errorHandler.mjs";
 import cookieParser from "cookie-parser";
 import { productRouter } from "./products/router.mjs";
+import { reservationRouter } from "./reservation/router.mjs";
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/api", productRouter);
 app.use("/api", authRouter);
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
+app.use("/api", reservationRouter);
 
 app.get("/", async (req, res) => {
   res.send("Hello world!");
