@@ -65,7 +65,7 @@ reservationRouter.get("/reservations", verifyToken, async (req, res) => {
 });
 
 // Endpoint para obtener una reserva por su ID
-reservationRouter.get("/reservations/:id", async (req, res) => {
+reservationRouter.get("/reservations/:id", verifyToken, async (req, res) => {
   try {
     const reservationId = parseInt(req.params.id, 10); // Convertir el ID a número
 
