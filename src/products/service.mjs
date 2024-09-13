@@ -257,7 +257,16 @@ export const productById = async (id) => {
       },
       include: {
         category: true,
-        product_date: true,
+        product_date: {
+          include: {
+            date: true,
+          },
+        },
+        product_location: {
+          include: {
+            location: true,
+          },
+        },
         product_feature: {
           // Tabla Intermedia de caracteristicas
           include: {
