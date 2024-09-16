@@ -9,7 +9,7 @@ import { verifyToken } from "../auth/service.mjs";
 export const reservationRouter = Router();
 
 // Endpoint para crear una nueva reserva
-reservationRouter.post("/reservations", verifyToken, async (req, res) => {
+reservationRouter.post("/reservations", async (req, res) => {
   try {
     const { user_id, product_id, date_id, slots_requested } = req.body;
 
