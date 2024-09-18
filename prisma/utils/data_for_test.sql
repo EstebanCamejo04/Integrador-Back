@@ -68,10 +68,30 @@ ON DUPLICATE KEY UPDATE
 -- Asume que los IDs para las fechas serán 1, 2, 3 y 4
 INSERT INTO date (id, date)
 VALUES
-(1, '2024-12-15 10:00:00'),
-(2, '2024-12-20 09:00:00'),
-(3, '2024-12-25 11:00:00'),
-(4, '2024-12-30 14:00:00')
+(1, '2024-09-18 09:00:00'),
+(2, '2024-09-25 11:00:00'),
+(3, '2024-10-02 13:00:00'),
+(4, '2024-10-09 14:00:00'),
+(5, '2024-10-16 09:00:00'),
+(6, '2024-10-23 17:00:00'),
+(7, '2024-10-30 16:00:00'),
+(8, '2024-11-06 15:00:00'),
+(9, '2024-11-13 09:00:00'),
+(10, '2024-11-20 11:00:00'),
+(11, '2024-11-27 12:00:00'),
+(12, '2024-12-04 09:00:00'),
+(13, '2024-12-11 09:00:00'),
+(14, '2024-12-18 09:00:00'),
+(15, '2024-12-25 09:00:00'),
+(16, '2025-01-01 09:00:00'),
+(17, '2025-01-08 09:00:00'),
+(18, '2025-01-15 09:00:00'),
+(19, '2025-01-22 09:00:00'),
+(20, '2025-01-29 09:00:00'),
+(21, '2025-02-05 09:00:00'),
+(22, '2025-02-12 09:00:00'),
+(23, '2025-02-19 09:00:00'),
+(24, '2025-02-26 09:00:00')
 AS dates
 ON DUPLICATE KEY UPDATE
     date = dates.date;
@@ -95,9 +115,17 @@ INSERT INTO product (id, category_id, name, description, price, imageKey, availa
 VALUES
 (1, 1, 'Hamaca one day', 'Disfruta de la serenidad de pasar un día entero en nuestra hamaca "One Day", colgada entre cerros. Diseñada para ofrecerte máxima comodidad, esta hamaca es perfecta para relajarte mientras contemplas la belleza de la naturaleza. Fabricada con materiales de alta calidad, garantiza durabilidad y resistencia, haciendo que cada momento al aire libre sea inolvidable. Ya sea con un buen libro o simplemente disfrutando del paisaje, nuestra hamaca es el complemento ideal para tus escapadas. Regálate la experiencia de desconectar y sumérgete en la tranquilidad que solo la naturaleza puede ofrecer.', 1500, 'images/product1.jpg', TRUE),
 (2, 2, 'Parque de juegos', 'Parques con juegos relacionados con el slackline y sus diferentes componentes como lo son las space net, las cintas con guía, las hamacas y las cintas de iniciación.', 2500, 'images/product2.jpg', TRUE),
-(3, 3, 'Highline', 'Caminar descalzo o con calcetines en una cinta plana especial suspendida entre dos rocas o riscos, en un acantilado.', 2000, 'images/product3.jpg', TRUE),
-(4, 4, 'Senderismo', 'El senderismo es una actividad recreativa y deportiva que implica caminar por senderos y rutas al aire libre, generalmente en entornos naturales como bosques, montañas y parques nacionales.', 3000, 'images/product4.jpg', TRUE),
-(5, 4, 'Night shift Highline', 'Caminar descalzo o con calcetines en una cinta plana especial suspendida entre dos rocas o riscos, en un acantilado.', 3000, 'images/product5.jpg', TRUE)
+(3, 3, 'Highline', 'Disfruta de una experiencia única al caminar descalzo o con calcetines sobre una cinta plana especialmente diseñada, suspendida entre dos impresionantes rocas o riscos en un acantilado. Este emocionante recorrido ofrece una perspectiva espectacular de los paisajes circundantes mientras te desafía a mantener el equilibrio sobre la cinta en un entorno de altura. Ideal para los aventureros que buscan combinar la adrenalina con la belleza natural en un entorno seguro y controlado. Experimenta la sensación de caminar entre las alturas y disfruta de vistas inigualables mientras pones a prueba tu valentía y equilibrio.', 2000, 'images/product3.jpg', TRUE),
+(4, 4, 'Senderismo', 'El senderismo es una actividad recreativa y deportiva que consiste en caminar a través de senderos y rutas en entornos naturales. Esta actividad se realiza generalmente en bosques, montañas, parques nacionales y otros espacios naturales, proporcionando una oportunidad para explorar la belleza del paisaje y disfrutar del aire libre.
+
+Los senderos pueden variar en dificultad y longitud, desde rutas suaves y accesibles hasta desafiantes caminatas de montaña. El senderismo no solo promueve la actividad física y el bienestar, sino que también permite a los participantes conectarse con la naturaleza, observar la flora y fauna local, y experimentar la tranquilidad que ofrece el entorno natural.
+
+Esta actividad puede ser realizada de forma individual o en grupo, y puede incluir diferentes niveles de complejidad, desde caminatas ligeras hasta excursiones más exigentes que requieren habilidades específicas y equipo adecuado. El senderismo es una forma excelente de mantenerse activo, mejorar la condición física y disfrutar de la serenidad de la naturaleza.', 3000, 'images/product4.jpg', TRUE),
+(5, 4, 'Night shift Highline', 'es una emocionante experiencia que combina la adrenalina del highline con la magia de la noche. En esta actividad, los participantes caminan sobre una cinta plana suspendida entre dos rocas o acantilados en la oscuridad, con la única iluminación proveniente de luces especiales diseñadas para la ocasión.
+
+A diferencia de las sesiones diurnas, donde el entorno natural y los paisajes se pueden observar con claridad, el Night Shift Highline ofrece una perspectiva única del paisaje nocturno. Las luces y la oscuridad crean una atmósfera surrealista que transforma la experiencia en un desafío tanto mental como físico. Caminar sobre la cuerda en estas condiciones requiere un mayor nivel de concentración, equilibrio y confianza, ya que la visibilidad limitada aumenta la complejidad del recorrido.
+
+Además de la experiencia emocionante de caminar en la oscuridad, los participantes tienen la oportunidad de disfrutar de vistas nocturnas espectaculares, observando las estrellas y el paisaje iluminado de una manera que no es posible durante el día. Este evento está diseñado para los amantes de la aventura que buscan un reto adicional y una experiencia inolvidable en un entorno único.', 3000, 'images/product5.jpg', TRUE)
 AS products
 ON DUPLICATE KEY UPDATE
     name = products.name,
@@ -174,12 +202,42 @@ ON DUPLICATE KEY UPDATE
 -- Asume que los IDs de productos y fechas ya están definidos
 INSERT INTO product_date (product_id, date_id, slots)
 VALUES
-(1, 1, 8), -- Hamaca one day disponible en la fecha con ID 1
-(1, 2, 8), -- Hamaca one day disponible en la fecha con ID 2
-(2, 3, 8), -- Parque de juegos disponible en la fecha con ID 3
-(3, 4, 8), -- Highline disponible en la fecha con ID 4
-(4, 2, 8), -- Senderismo disponible en la fecha con ID 2
-(5, 1, 8)  -- Night shift Highline disponible en la fecha con ID 1
+(1, 1, 8), -- Hamaca one day
+(1, 4, 8),
+(1, 17, 2),
+(1, 8, 7),
+(1, 7, 2),
+(1, 5, 2),
+(1, 10, 5), 
+(2, 2, 8), -- Parque de juegos
+(2, 5, 2),
+(2, 4, 8),
+(2, 8, 7),
+(2, 17, 2),
+(2, 11, 4),
+(3, 3, 8), -- Highline
+(3, 6, 8),
+(3, 9, 6),
+(3, 5, 2),
+(3, 8, 7),
+(3, 4, 8),
+(3, 17, 2),
+(3, 12, 3), 
+(4, 13, 8),-- Senderismo 
+(4, 16, 6),
+(4, 4, 8)
+(4, 19, 0),
+(4, 17, 2),
+(4, 5, 2),
+(4, 8, 7),
+(4, 22, 1), 
+(5, 14, 5), -- Night shift Highline 
+(5, 17, 2),
+(5, 20, 1),
+(5, 8, 7),
+(5, 5, 2),
+(5, 4, 8),
+(5, 23, 7);  
 AS product_dates
 ON DUPLICATE KEY UPDATE
     product_id = product_dates.product_id,
