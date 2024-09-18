@@ -71,13 +71,16 @@ export const verifyToken = async (req, res, next) => {
     }
   }
 
+  console.log(token);
+
   // const token = authToken.split(" ")[1]; // Extract token from "Bearer <token>"
 
   try {
-    const decoded = jwt.verify(authToken, SECRET_KEY);
+    const decoded = jwt.verify(token, SECRET_KEY);
     req.user = decoded; // Añadir los datos del usuario al request
     next(); // Continuar con la siguiente función en la cadena
   } catch (error) {
+    console.log(error);
     return res.status(401).json({ error: "Invalid token" });
   }
 };
