@@ -53,11 +53,22 @@ export const signUp = async (name, lastName, email, password, phone) => {
 // Middleware para verificar el token
 export const verifyToken = async (req, res, next) => {
   // Obtengo el token de las cookies
-  const authToken = req.cookies.token;
+  let token;
 
-  // Valido que se haya obtenido un token
-  if (!authToken) {
-    return res.status(401).json({ error: "Access denied. No token provided." });
+  token = req.cookies.token;
+
+  // Valido que obtuve un token
+  if (!token) {
+    token = req.headers["authorization"]
+      ?.split(" ")[1]
+      .replace(/^"|"$/g, "")
+      .trim();
+
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Access denied. No token provided." });
+    }
   }
 
   // const token = authToken.split(" ")[1]; // Extract token from "Bearer <token>"

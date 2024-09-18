@@ -27,7 +27,7 @@ authRouter.post("/login", async (req, res) => {
     res.cookie(cookies.token.name, sessionData.token, cookieConfig);
 
     // Envio la info del usuario
-    res.json({ user: sessionData.user });
+    res.json({ user: sessionData.user, token: sessionData.token });
   } catch (error) {
     console.log(error);
     res.status(401).json({ error: error.message });

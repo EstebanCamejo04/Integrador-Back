@@ -26,13 +26,22 @@ export const createUser = async (name, lastName, email, password, phone) => {
 // Middleware para verificar si el usuario tiene un rol específico
 export const verifyRole = (role) => (req, res, next) => {
   // Obtengo el token
-  const token = req.cookies.token;
+  let token;
+
+  token = req.cookies.token;
 
   // Valido que obtuve un token
   if (!token) {
-    return res
-      .status(401)
-      .json({ message: "Access denied. No token provided." });
+    token = req.headers["authorization"]
+      ?.split(" ")[1]
+      .replace(/^"|"$/g, "")
+      .trim();
+
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Access denied. No token provided." });
+    }
   }
 
   try {
