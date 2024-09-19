@@ -48,8 +48,13 @@ productRouter.get("/products/:id", async (req, res) => {
 // PUT update product by ID
 productRouter.put("/products", async (req, res) => {
   try {
+
     const { id, name, description, category_id, price, available } =
-      req.body[0];
+      req.body;
+        
+        if (!id || !name || !description || !category_id || !price) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
     // Llamamos a la función para actualizar el producto
     const updatedProduct = await updateProduct({
       id: id,
