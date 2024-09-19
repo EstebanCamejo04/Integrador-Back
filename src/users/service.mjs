@@ -32,6 +32,9 @@ export const verifyRole = (role) => (req, res, next) => {
 
   // Valido que obtuve un token
   if (!token) {
+
+console.log("TTTT___" + req.headers["authorization"]);
+
     token = req.headers["authorization"]
       ?.split(" ")[1]
       .replace(/^"|"$/g, "")
